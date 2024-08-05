@@ -1,11 +1,21 @@
 import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {styles} from './home.style';
 import imageIndex from '../../assets/imageIndex';
 import {CustomStatusbar, Post} from '../../components';
 import {PostList} from './home.const';
 
 const Home = () => {
+  const [postList, setPostList] = useState(PostList);
+  const [isEndReach, setIsEndReach] = useState(false);
+
+  useEffect(() => {
+    if (isEndReach) {
+      const newList: any = [...postList, PostList];
+      setPostList(newList);
+    }
+  }, [isEndReach]);
+
   return (
     <View style={styles.container}>
       <CustomStatusbar backgroundColor="white" barStyle="dark-content" />
@@ -17,13 +27,18 @@ const Home = () => {
       </View>
       <View style={styles.listView}>
         <FlatList
-          data={PostList}
+          data={postList}
           contentContainerStyle={styles.contentContainer}
           keyExtractor={(_, index) => {
             return `${index}`;
           }}
           renderItem={({item, index}) => <Post item={item} index={index} />}
           showsVerticalScrollIndicator={false}
+          onEndReached={info => {
+            if (info.distanceFromEnd === 0) {
+              setIsEndReach(!isEndReach);
+            }
+          }}
         />
       </View>
     </View>

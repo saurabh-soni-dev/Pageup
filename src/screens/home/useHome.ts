@@ -1,6 +1,8 @@
+import {useState} from 'react';
+import {PostList} from './home.const';
 
 const useHome = () => {
-  return {}
-}
+  return {};
+};
 
-export default useHome
+export default useHome;
