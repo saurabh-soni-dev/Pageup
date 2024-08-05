@@ -1,18 +1,20 @@
-import {View, Text, TouchableOpacity, Image, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import {styles} from './home.style';
+import {FlatList, Image, TouchableOpacity, View} from 'react-native';
 import imageIndex from '../../assets/imageIndex';
 import {CustomStatusbar, Post} from '../../components';
 import {PostList} from './home.const';
+import {styles} from './home.style';
 
 const Home = () => {
   const [postList, setPostList] = useState(PostList);
   const [isEndReach, setIsEndReach] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    if (isEndReach) {
-      const newList: any = [...postList, PostList];
+    if (isEndReach && currentIndex < PostList.length) {
+      const newList = [...postList, PostList[currentIndex]];
       setPostList(newList);
+      setCurrentIndex(currentIndex + 1);
     }
   }, [isEndReach]);
 
